@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-interface SimpleCrudMapper<Entity, Criteria> {
+interface BasicCrudMapper<Entity, Criteria> {
 
   @InsertProvider(type = CreateSqlProvider.class, method = "sql")
   @Options(useGeneratedKeys = true)
@@ -130,7 +130,7 @@ interface SimpleCrudMapper<Entity, Criteria> {
     protected Class<?> entityType(ProviderContext context) {
       return Stream.of(context.getMapperType().getGenericInterfaces())
         .filter(ParameterizedType.class::isInstance).map(ParameterizedType.class::cast)
-        .filter(type -> type.getRawType() == SimpleCrudMapper.class)
+        .filter(type -> type.getRawType() == BasicCrudMapper.class)
         .findFirst()
         .map(type -> type.getActualTypeArguments()[0])
         .filter(Class.class::isInstance).map(Class.class::cast)
